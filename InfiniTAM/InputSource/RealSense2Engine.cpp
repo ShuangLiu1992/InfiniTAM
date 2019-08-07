@@ -134,7 +134,8 @@ void RealSense2Engine::getImages(ITMUChar4Image *rgbImage, ITMShortImage *rawDep
 	
 	// get frames
 	rs2::frameset frames = pipe->wait_for_frames();
-        frames = align_to_depth.process(frames);
+        //frames = align_to_depth.process(frames);
+        frames = align_to_color.process(frames);
 	
 	rs2::depth_frame depth = frames.get_depth_frame();
 	rs2::video_frame color = frames.get_color_frame();
