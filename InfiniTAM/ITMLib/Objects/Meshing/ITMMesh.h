@@ -84,16 +84,12 @@ namespace ITMLib
                          << '\n' << "property uchar red"
                          << '\n' << "property uchar green"
                          << '\n' << "property uchar blue"
+                         << '\n' << "element face " << noTotalTriangles
+                         << '\n' << "property list uchar int vertex_index"
                          << '\n' << "end_header" << std::endl;
 
                     for (uint i = 0; i < noTotalTriangles; i++)
                     {
-//                      stream.write( reinterpret_cast<const char*> ( &triangleArray[i].p2 ), sizeof( Vector3f ) );
-//                      stream.write( reinterpret_cast<const char*> ( &triangleArray[i].c2 ), sizeof( Vector3u ) );
-//                      stream.write( reinterpret_cast<const char*> ( &triangleArray[i].p1 ), sizeof( Vector3f ) );
-//                      stream.write( reinterpret_cast<const char*> ( &triangleArray[i].c1 ), sizeof( Vector3u ) );
-//                      stream.write( reinterpret_cast<const char*> ( &triangleArray[i].p0 ), sizeof( Vector3f ) );
-//                      stream.write( reinterpret_cast<const char*> ( &triangleArray[i].c0 ), sizeof( Vector3u ) );
                       stream.write( reinterpret_cast<const char*> ( &triangleArray[i].p2 ), sizeof( Vector3f ) );
                       stream.write( reinterpret_cast<const char*> ( &triangleArray[i].c2 ), sizeof( Vector3u ) );
                       stream.write( reinterpret_cast<const char*> ( &triangleArray[i].p1 ), sizeof( Vector3f ) );
@@ -102,6 +98,16 @@ namespace ITMLib
                       stream.write( reinterpret_cast<const char*> ( &triangleArray[i].c0 ), sizeof( Vector3u ) );
 
                     }
+                  for (int i = 0; i < noTotalTriangles; i++)
+                  {
+                    uchar n = 3;
+                    stream.write( reinterpret_cast<const char*> ( &n ), sizeof( uchar ) );
+                    int f[3] = {i * 3 + 0, i * 3 + 1, i * 3 + 2};
+                    stream.write( reinterpret_cast<const char*> ( &f[2] ), sizeof( int ) );
+                    stream.write( reinterpret_cast<const char*> ( &f[1] ), sizeof( int ) );
+                    stream.write( reinterpret_cast<const char*> ( &f[0] ), sizeof( int ) );
+
+                  }
 
                   if (shoulDelete) delete cpu_triangles;
 		}
