@@ -118,7 +118,7 @@ RealSense2Engine::RealSense2Engine(const char *calibFilename, bool alignColourWi
 	extrinsics.m33 = 1.0f;
 	extrinsics.m03 = 0.0f; extrinsics.m13 = 0.0f; extrinsics.m23 = 0.0f;
 	
-	this->calib.trafo_rgb_to_depth.SetFrom(extrinsics);
+	//this->calib.trafo_rgb_to_depth.SetFrom(extrinsics);
 }
 
 RealSense2Engine::~RealSense2Engine()
