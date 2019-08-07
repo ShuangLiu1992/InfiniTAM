@@ -221,7 +221,7 @@ _CPU_AND_GPU_CODE_ inline Vector3u sdfInterp(const THREADPTR(Vector3u) &p1, cons
   if (fabs(0.0f - valp2) < 0.00001f) return p2;
   if (fabs(valp1 - valp2) < 0.00001f) return p1;
 
-  return p1 + ((0.0f - valp1) / (valp2 - valp1)) * (p2 - p1);
+  return (p1.toFloat() + ((0.0f - valp1) / (valp2 - valp1)) * (p2.toFloat() - p1.toFloat())).toUChar();
 }
 
 template<class TVoxel>
