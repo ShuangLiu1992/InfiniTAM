@@ -103,7 +103,9 @@ void ITMBasicEngine<TVoxel,TIndex>::SaveSceneToMesh(const char *objFileName)
 	ITMMesh *mesh = new ITMMesh(settings->GetMemoryType());
 
 	meshingEngine->MeshScene(mesh, scene);
-	mesh->WriteSTL(objFileName);
+	//mesh->WriteSTL(objFileName);
+	//mesh->WriteOBJ(objFileName);
+	mesh->WritePly(objFileName);
 
 	delete mesh;
 }

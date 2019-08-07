@@ -102,7 +102,8 @@ __global__ void meshScene_device(ITMMesh::Triangle *triangles, unsigned int *noT
 	Vector3i globalPos = Vector3i(globalPos_4s.x, globalPos_4s.y, globalPos_4s.z) * SDF_BLOCK_SIZE;
 
 	Vector3f vertList[12];
-	int cubeIndex = buildVertList(vertList, globalPos, Vector3i(threadIdx.x, threadIdx.y, threadIdx.z), localVBA, hashTable);
+        Vector3u colorList[12];
+	int cubeIndex = buildVertList(vertList, colorList, globalPos, Vector3i(threadIdx.x, threadIdx.y, threadIdx.z), localVBA, hashTable);
 
 	if (cubeIndex < 0) return;
 
@@ -115,6 +116,9 @@ __global__ void meshScene_device(ITMMesh::Triangle *triangles, unsigned int *noT
 			triangles[triangleId].p0 = vertList[triangleTable[cubeIndex][i]] * factor;
 			triangles[triangleId].p1 = vertList[triangleTable[cubeIndex][i + 1]] * factor;
 			triangles[triangleId].p2 = vertList[triangleTable[cubeIndex][i + 2]] * factor;
+                        triangles[triangleId].c0 = colorList[triangleTable[cubeIndex][i]];
+                        triangles[triangleId].c1 = colorList[triangleTable[cubeIndex][i + 1]];
+                        triangles[triangleId].c2 = colorList[triangleTable[cubeIndex][i + 2]];
 		}
 	}
 }

@@ -29,7 +29,8 @@ void ITMMeshingEngine_CPU<TVoxel, ITMVoxelBlockHash>::MeshScene(ITMMesh *mesh, c
 		for (int z = 0; z < SDF_BLOCK_SIZE; z++) for (int y = 0; y < SDF_BLOCK_SIZE; y++) for (int x = 0; x < SDF_BLOCK_SIZE; x++)
 		{
 			Vector3f vertList[12];
-			int cubeIndex = buildVertList(vertList, globalPos, Vector3i(x, y, z), localVBA, hashTable);
+                        Vector3u colorList[12];
+			int cubeIndex = buildVertList(vertList, colorList, globalPos, Vector3i(x, y, z), localVBA, hashTable);
 			
 			if (cubeIndex < 0) continue;
 
