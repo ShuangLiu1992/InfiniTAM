@@ -5,6 +5,7 @@
 #include "ImageSourceEngine.h"
 
 #ifdef COMPILE_WITH_RealSense2
+#include <memory>
 namespace rs2 { class pipeline; class context; class device; }
 #endif
 

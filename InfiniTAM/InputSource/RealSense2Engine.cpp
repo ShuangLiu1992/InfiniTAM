@@ -11,6 +11,7 @@
 #include <iomanip>
 
 #ifdef COMPILE_WITH_RealSense2
+#include <cstring>
 #include "librealsense2/rs.hpp"
 
 using namespace InputSource;
