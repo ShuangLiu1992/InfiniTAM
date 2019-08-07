@@ -61,6 +61,35 @@ namespace ITMLib
 			if (shoulDelete) delete cpu_triangles;
 		}
 
+		void WriteDump(const char *fileName) {
+
+                  ORUtils::MemoryBlock<Triangle> *cpu_triangles; bool shoulDelete = false;
+                  if (memoryType == MEMORYDEVICE_CUDA)
+                  {
+                    cpu_triangles = new ORUtils::MemoryBlock<Triangle>(noMaxTriangles, MEMORYDEVICE_CPU);
+                    cpu_triangles->SetFrom(triangles, ORUtils::MemoryBlock<Triangle>::CUDA_TO_CPU);
+                    shoulDelete = true;
+                  }
+                  else cpu_triangles = triangles;
+
+                  std::ofstream stream(fileName, std::ios::binary);
+
+                  Triangle *triangleArray = cpu_triangles->GetData(MEMORYDEVICE_CPU);
+                  stream.write( reinterpret_cast<const char*> ( &noTotalTriangles), sizeof( noTotalTriangles ) );
+
+                  for (uint i = 0; i < noTotalTriangles; i++)
+                  {
+                    stream.write( reinterpret_cast<const char*> ( &triangleArray[i].p2 ), sizeof( Vector3f ) );
+                    stream.write( reinterpret_cast<const char*> ( &triangleArray[i].c2 ), sizeof( Vector3u ) );
+                    stream.write( reinterpret_cast<const char*> ( &triangleArray[i].p1 ), sizeof( Vector3f ) );
+                    stream.write( reinterpret_cast<const char*> ( &triangleArray[i].c1 ), sizeof( Vector3u ) );
+                    stream.write( reinterpret_cast<const char*> ( &triangleArray[i].p0 ), sizeof( Vector3f ) );
+                    stream.write( reinterpret_cast<const char*> ( &triangleArray[i].c0 ), sizeof( Vector3u ) );
+                  }
+
+                  if (shoulDelete) delete cpu_triangles;
+		}
+
 		void WritePly(const char *fileName) {
                   ORUtils::MemoryBlock<Triangle> *cpu_triangles; bool shoulDelete = false;
                   if (memoryType == MEMORYDEVICE_CUDA)
