@@ -43,7 +43,7 @@ static void print_device_information(const rs2::device& dev)
 
 RealSense2Engine::RealSense2Engine(const char *calibFilename, bool alignColourWithDepth,
 								   Vector2i requested_imageSize_rgb, Vector2i requested_imageSize_d)
-: BaseImageSourceEngine(calibFilename)
+: BaseImageSourceEngine(calibFilename), align_to_depth(RS2_STREAM_DEPTH), align_to_color(RS2_STREAM_COLOR)
 {
 	this->calib.disparityCalib.SetStandard();
 	this->calib.trafo_rgb_to_depth = ITMExtrinsics();
@@ -134,6 +134,7 @@ void RealSense2Engine::getImages(ITMUChar4Image *rgbImage, ITMShortImage *rawDep
 	
 	// get frames
 	rs2::frameset frames = pipe->wait_for_frames();
+        frames = align_to_depth.process(frames);
 	
 	rs2::depth_frame depth = frames.get_depth_frame();
 	rs2::video_frame color = frames.get_color_frame();
